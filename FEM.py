@@ -73,7 +73,7 @@ def femeval(xvals, nodes, para):
 @nb.jit(nopython = True)
 def dy_femeval(x, xnodes):
     """
-    
+    derivative wrt parameters (y)
     
     """
     

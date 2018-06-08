@@ -74,6 +74,77 @@ def Stationary(prob):
             return sdist
         else:
             print('error: no eigenvalue which is equal to one.')
+
+            
+import numba as nb
+import numpy as np
+
+###codes to generate shocks###
+@nb.jit(nopython = True)
+def transit(i, r, prob):
+    """
+    input
+    i: initial index
+    r: uniform random number in (0, 1). this should be feeded.
+    prob: transition matrix
+
+
+    output
+    j: next index 0, 1, 2,...
+    j will be -1 if something is wrong
+    
+    
+    """
+
+    num_s = prob.shape[1]
+
+    if r <= prob[i,0]:
+        return 0
+
+    for j in range(1, num_s):
+
+        #print(np.sum(prob[i,0:j]))
+        if r <= np.sum(prob[i,0:j]):
+            return j - 1
+
+    if r > np.sum(prob[i,0:-1]) and r <= 1.:
+        return num_s - 1
+
+    print('error')
+    return -1    
+
+
+
+@nb.jit(nopython = True, parallel = True)
+def calc_trans(data_i_s, data_rnd, prob):
+    """
+    inout
+    data_i_s: index container. (num_pop, sim_time). THIS HAS TO BE INT. SET dtype = int
+               data_i_s[:,0] should contain the initial states.
+
+    input
+    dara_rnd: random number container. (num_pop, sim_time-1)
+    prob: transition matrix
+    
+    """
+
+
+    num_pop, sim_time = data_i_s.shape
+
+    if (data_rnd.shape[0] < num_pop) or (data_rnd.shape[1] < sim_time-1):
+        print('error:insufficient random seeds')
+        return
+        
+        
+    for i in nb.prange(num_pop):    
+        for t in range(1, sim_time):
+            data_i_s[i, t] = transit(data_i_s[i, t-1], data_rnd[i, t-1], prob)
+
+        
+    return
+
+###end codes to generate shocks###
+            
             
 
 
@@ -89,6 +160,15 @@ if __name__ == '__main__':
 
     for i in range(num):
         print("{0:.50f}".format(sum(T[i,:])))
+
+    np.random.seed(1) #fix the seed
+
+    num_pop = 1000
+    sim_time = 1000
+    
+    data_i_s = np.ones((num_pop, sim_time))*(T.shape[0])//2
+    data_rnd = np.random.rand(num_pop, sim_time)
+
     
 
 
