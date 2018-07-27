@@ -1,8 +1,3 @@
-
-# coding: utf-8
-
-# In[ ]:
-
 def Rouwenhorst(rho, sig_z, num):
     """
     Implements Rouwenhorst AR(1) discretization
