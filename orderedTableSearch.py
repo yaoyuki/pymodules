@@ -45,13 +45,17 @@ def locate(x, grid, btm = 0, up = None):
     mid = 0
     while up - btm > 1: #if not done
         mid = int((up+btm)/2) #math.floor? 
-        if (grid[N-1] > grid[0]) is (x > grid[mid]):
+#         if (grid[N-1] > grid[0]) == (x > grid[mid]):
+        if (grid[N-1] > grid[0]) == (x > grid[mid]):
+
             btm = mid
         else:
             up = mid
 
     if up - btm < 1: 
-        print('error: up - btm < 1')
+        print('locate, error: up - btm < 1, up = ', up, ', btm = ', btm, '.')
+        
+#         print('error: up - btm < 1')
 
     return btm   
 
@@ -112,8 +116,9 @@ def locate_on_grids(xvals, grid, init_btm = 0):
     ans[0]= hunt(xvals[0], grid, init_btm)
 
     for ix in range(1,M):
-        #ans[ix] = hunt(xvals[ix], grid, ans[ix-1])
-        ans[ix] = locate(xvals[ix], grid, ans[ix-1])#i donno why but it is faster
+        ans[ix] = hunt(xvals[ix], grid, ans[ix-1])
+        # ans[ix] = locate(xvals[ix], grid, ans[ix-1]) #this was a typo. cant set btm = ans[ix-1]
+        # i donno why but it is faster
 
     return ans
 
