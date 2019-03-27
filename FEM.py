@@ -74,6 +74,14 @@ def femeval(xvals, nodes, para):
 def dy_femeval(x, xnodes):
     """
     derivative wrt parameters (y)
+    or returns only the weights on xnodes
+    
+    input:
+    x: a point to be interpolated
+    xnode: the grid
+    
+    output:
+    ans (N-dim array)
     
     """
     
