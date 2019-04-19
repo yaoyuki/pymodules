@@ -31,11 +31,13 @@ def fem_peval(xval, nodes, para):
 def fem_grideval(xvals, nodes, para):
     #I should prohibit extrapolation
             
-    N = len(nodes)
+#     N = len(nodes)
     M = len(xvals)
+
     if N != len(para):
         print('error: N != len(para)')
-        return None
+        return np.ones(M)*np.nan
+#         return None #this sometimes causes a problem.
 
 
     #xelements = locate_grid(xvals, nodes)
@@ -90,7 +92,7 @@ def dy_femeval(x, xnodes):
   
     ans = np.zeros(N)
     
-    ie = locate(x, xnodes)
+    ie = locate(x, xnodes) #need to think of using hunt
     
     #need to add some check
     x0 = xnodes[ie]
