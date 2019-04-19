@@ -31,7 +31,7 @@ def fem_peval(xval, nodes, para):
 def fem_grideval(xvals, nodes, para):
     #I should prohibit extrapolation
             
-#     N = len(nodes)
+    N = len(nodes)
     M = len(xvals)
 
     if N != len(para):
