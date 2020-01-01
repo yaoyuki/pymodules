@@ -64,7 +64,7 @@ def fem2d_peval(xval, yval, xnodes, ynodes, znodes):
     return fem2d_eleval(xval, yval, xnodes[ix], xnodes[ix+1], ynodes[iy], ynodes[iy+1],
                         znodes[ix, iy], znodes[ix+1, iy], znodes[ix+1, iy+1], znodes[ix, iy+1])
 
-#make another function to evaluate on a grid or a line.
+# #make another function to evaluate on a grid or a line.
 
 #!!!!!!CAUTION!!!!!! THIS FUNCTION MAY BE WRONG
 @nb.jit(nopython = True)    
@@ -74,10 +74,9 @@ def fem2deval(xypoints, xnodes, ynodes, znodes): #, sort = False):
     
     if xypoints.shape[0] != 2:
         print('ERROR: xypoints.shape[0] != 2')
-        return None
+#         return None
     
     
-
     ans = np.zeros(xypoints.shape[1])
     
     
@@ -95,8 +94,34 @@ def fem2deval(xypoints, xnodes, ynodes, znodes): #, sort = False):
     
     return ans
     
-    
+   
+# #!!!!!!CAUTION!!!!!! THIS FUNCTION MAY BE WRONG
+# @nb.jit(nopython = True)    
+# def fem2deval(xpoints, ypoints, xnodes, ynodes, znodes): #, sort = False):
 
+#     #xypoint is array-like: xypoint[0,:] is x, xypoint[1,:] is y
+    
+#     if len(xpoints) != len(ypoints):
+#         print('ERROR: len(xpoints) != len(ypoints)')
+#         return None
+    
+#     num = len(xpoints)
+    
+#     ans = np.zeros(num)
+    
+#     #numba did not accept the following two arguments
+#     #ixs = np.empty(xypoints.shape[1]) 
+#     #iys = np.empty(xypoints.shape[1])
+
+#     ixs = locate_grid(xpoints, xnodes)
+#     iys = locate_grid(ypoints, ynodes)
+    
+#     for i in range(len(ans)):
+#         ans[i] = fem2d_eleval(
+#             xpoints[i], ypoints[i], xnodes[ixs[i]], xnodes[ixs[i]+1], ynodes[iys[i]], ynodes[iys[i]+1],
+#             znodes[ixs[i], iys[i]], znodes[ixs[i]+1, iys[i]], znodes[ixs[i]+1, iys[i]+1], znodes[ixs[i], iys[i]+1])
+    
+#     return ans
 
 # In[3]:
 
