@@ -39,7 +39,8 @@ def locate(x, grid, btm = 0, up = None):
             return 0
         
     else:
-        print('error: grid[N-1] == grid[0]')
+        raise Exception('locate: the table does not look ordered or has NaNs')
+        # print('error: grid[N-1] == grid[0]')
     
     #Golden search
     mid = 0
@@ -52,8 +53,9 @@ def locate(x, grid, btm = 0, up = None):
         else:
             up = mid
 
-    if up - btm < 1: 
-        print('locate, error: up - btm < 1, up = ', up, ', btm = ', btm, '.')
+    if up - btm < 1:
+        raise Exception('locate: error: up - btm < 1')        
+        # print('locate, error: up - btm < 1, up = ', up, ', btm = ', btm, '.')
         
 #         print('error: up - btm < 1')
 
