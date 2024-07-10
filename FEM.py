@@ -61,7 +61,8 @@ def fem_grideval(xvals, nodes, para):
 #            
 #        return fem_grideval(xvals, nodes, para)
 
-@nb.generated_jit(nopython=True)
+# @nb.generated_jit(nopython=True)
+@nb.jit(nopython=True)
 def femeval(xvals, nodes, para):
     #I should prohibit extrapolation
     if isinstance(xvals, nb.types.Float) or isinstance(xvals, nb.types.Integer):

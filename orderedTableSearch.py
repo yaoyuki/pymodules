@@ -124,7 +124,8 @@ def locate_on_grids(xvals, grid, init_btm = 0):
 
     return ans
 
-@nb.generated_jit(nopython=True)
+# @nb.generated_jit(nopython=True)
+@nb.jit(nopython=True)
 def locate_grid(xvals, grid, init_btm = 0, return_nparray = False):
     
 
