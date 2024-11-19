@@ -124,15 +124,34 @@ def locate_on_grids(xvals, grid, init_btm = 0):
 
     return ans
 
+# # @nb.generated_jit(nopython=True)
+# @nb.jit(nopython=True)
+# def locate_grid(xvals, grid, init_btm = 0, return_nparray = False):
+    
+
+#     if isinstance(xvals, nb.types.Float) or isinstance(xvals, nb.types.Integer) : #if xvals is scalar
+#         #here, locate is converted into np.array
+#         #if you need just an interger, use locate instead.
+#         return lambda xvals, grid, init_btm, return_nparray: np.array(locate(xvals, grid))
+        
+#         #if return_nparray is True:
+#         #    return lambda xvals, grid, init_btm, return_nparray: np.array(locate(xvals, grid))
+#         #else:
+#         #    return lambda xvals, grid, init_btm, return_nparray: locate(xvals, grid)
+    
+#     else: #arraylike #maybe I should check this is arraylike
+#         return lambda xvals, grid, init_btm, return_nparray: locate_on_grids(xvals, grid, init_btm)
+
+
 # @nb.generated_jit(nopython=True)
 @nb.jit(nopython=True)
 def locate_grid(xvals, grid, init_btm = 0, return_nparray = False):
     
 
-    if isinstance(xvals, nb.types.Float) or isinstance(xvals, nb.types.Integer) : #if xvals is scalar
+    if isinstance(xvals, float) or isinstance(xvals, int) : #if xvals is scalar
         #here, locate is converted into np.array
         #if you need just an interger, use locate instead.
-        return lambda xvals, grid, init_btm, return_nparray: np.array(locate(xvals, grid))
+        return np.array(locate(xvals, grid))
         
         #if return_nparray is True:
         #    return lambda xvals, grid, init_btm, return_nparray: np.array(locate(xvals, grid))
@@ -140,7 +159,7 @@ def locate_grid(xvals, grid, init_btm = 0, return_nparray = False):
         #    return lambda xvals, grid, init_btm, return_nparray: locate(xvals, grid)
     
     else: #arraylike #maybe I should check this is arraylike
-        return lambda xvals, grid, init_btm, return_nparray: locate_on_grids(xvals, grid, init_btm)
+        return locate_on_grids(xvals, grid, init_btm)
 
 
 # In[4]:

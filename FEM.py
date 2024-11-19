@@ -65,13 +65,14 @@ def fem_grideval(xvals, nodes, para):
 @nb.jit(nopython=True)
 def femeval(xvals, nodes, para):
     #I should prohibit extrapolation
-    if isinstance(xvals, nb.types.Float) or isinstance(xvals, nb.types.Integer):
+    # if isinstance(xvals, nb.types.Float) or isinstance(xvals, nb.types.Integer):
+    if isinstance(xvals, float) or isinstance(xvals, int):    
         
-        return lambda xvals, nodes, para: fem_peval(xvals, nodes, para)
+        return fem_peval(xvals, nodes, para)
 
     else: #if xvals is actually array-like
             
-        return lambda xvals, nodes, para: fem_grideval(xvals, nodes, para)
+        return fem_grideval(xvals, nodes, para)
 
 @nb.jit(nopython = True)
 def dy_femeval(x, xnodes):
