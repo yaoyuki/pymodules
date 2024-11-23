@@ -1,5 +1,5 @@
 from orderedTableSearch import locate, locate_grid
-from numba import njit
+from numba import njit, guvectorize
 import numpy as np
 
 @njit
@@ -172,7 +172,7 @@ def dcubic_interp(xvals, xa, ya, y2a):
         return dsplint_grid(xa, ya, y2a, xvals)
 
 
-@nb.njit
+@njit
 def cubic_convert_y_ypp_to_polycoef(xs, ys, ypps):
 
     """
@@ -203,4 +203,14 @@ def cubic_convert_y_ypp_to_polycoef(xs, ys, ypps):
                      + ((-xs[j]**3.0)/(6. * deltas[j]) + xs[j]*deltas[j]/6.)*ypps[j+1]
 
     return coef
+
+
+# a function to evaluate the cubic spline using the polynomial coefficients
+# x and out must be the same size array
+# this is approximately ten times slower than cubic_interp does
+@guvectorize('(), (n), (m, l) -> ()')
+def cubic_interp_from_coefs(x, xs, coef, out):
+
+    i = locate(x, xs)
+    out[:] = np.sum(coef[i] * np.power(x, np.array([0, 1, 2, 3])))
     
